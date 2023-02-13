@@ -5,6 +5,7 @@ import axios from "../axios";
 import { Post } from "../components/Post";
 import { Index } from "../components/AddComment";
 import { CommentsBlock } from "../components/CommentsBlock";
+import { ReactMarkdown } from "react-markdown/lib/react-markdown";
 
 export const FullPost = () => {
   const [data, setData] = React.useState();
@@ -30,8 +31,7 @@ export const FullPost = () => {
       <Post
         id={data._id}
         title={data.title}
-        imageUrl = {data.imageUrl}
-        // imageUrl="https://res.cloudinary.com/practicaldev/image/fetch/s--UnAfrEG8--/c_imagga_scale,f_auto,fl_progressive,h_420,q_auto,w_1000/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/icohm5g0axh9wjmu4oc3.png"
+        imageUrl = {data.imageURL}
         user={data.user}
         createdAt={data.createdAt}
         viewsCount={data.viewsCount}
@@ -39,15 +39,9 @@ export const FullPost = () => {
         tags={data.tags}
         isFullPost
       >
-        <p>
-          Hey there! 👋 I'm starting a new series called "Roast the Code", where
-          I will share some code, and let YOU roast and improve it. There's not
-          much more to it, just be polite and constructive, this is an exercise
-          so we can all learn together. Now then, head over to the repo and
-          roast as hard as you can!!
-        </p>
+        <ReactMarkdown children={data.text} />
       </Post>
-      <CommentsBlock
+      {/* <CommentsBlock
         items={[
           {
             user: {
@@ -67,7 +61,7 @@ export const FullPost = () => {
         isLoading={false}
       >
         <Index />
-      </CommentsBlock>
+      </CommentsBlock> */}
     </>
   );
 };

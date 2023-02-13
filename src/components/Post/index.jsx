@@ -10,6 +10,8 @@ import { Link } from 'react-router-dom'
 import styles from './Post.module.scss';
 import { UserInfo } from '../UserInfo';
 import { PostSkeleton } from './Skeleton';
+import { useDispatch } from 'react-redux';
+import { fetchRemovePost } from '../../redux/slices/posts';
 
 export const Post = ({
   id,
@@ -25,19 +27,23 @@ export const Post = ({
   isLoading,
   isEditable,
 }) => {
+  const dispatch = useDispatch();
+
   if (isLoading) {
     return <PostSkeleton />;
   }
 
-  const onClickRemove = () => {};
-
-  console.log(id);
+  const onClickRemove = () => {
+    if(window.confirm('Are you sure you want to delete post?')) {
+      dispatch(fetchRemovePost(id)); 
+    }
+  };
 
   return (
     <div className={clsx(styles.root, { [styles.rootFull]: isFullPost })}>
       {isEditable && (
         <div className={styles.editButtons}>
-          <Link to={`/posts/${id}/edit`}>
+          <Link to={`/post/${id}/edit`}>
             <IconButton color="primary">
               <EditIcon />
             </IconButton>
@@ -50,7 +56,7 @@ export const Post = ({
       {imageUrl && (
         <img
           className={clsx(styles.image, { [styles.imageFull]: isFullPost })}
-          src={imageUrl}
+          src={imageUrl ? `http://localhost:4444${imageUrl}` : ''}
           alt={title}
         />
       )}

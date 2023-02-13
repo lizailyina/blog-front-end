@@ -14,9 +14,9 @@ import { CommentsBlock } from '../components/CommentsBlock';
 export const Home = () => {
 
   const dispatch = useDispatch();
-  const { posts, tags } = useSelector(state => state.posts);
 
-  console.log(posts.status);
+  const userData = useSelector(state => state.auth.data);
+  const { posts, tags } = useSelector(state => state.posts);
 
   const isPostsLoading = posts.status === 'loading';
   const isTagsLoading = tags.status === 'loading';
@@ -29,30 +29,30 @@ export const Home = () => {
 
   return (
     <>
-      <Tabs style={{ marginBottom: 15 }} value={0} aria-label="basic tabs example">
+      {/* <Tabs style={{ marginBottom: 15 }} value={0} aria-label="basic tabs example">
         <Tab label="New" />
         <Tab label="Popular" />
-      </Tabs>
-      <Grid container spacing={4}>
-        <Grid xs={8} item>
+      </Tabs> */}
+      {/* <Grid container spacing={4}>
+        <Grid xs={8} item> */}
           {(isPostsLoading ? [...Array(5)] : posts.items).map((obj, index) => 
             isPostsLoading ? (
              <Post key={index} isLoading={true} />
-            ) : (
+            ) : 
+              (
               <Post
                 id={obj._id}
                 title={obj.title}
-                imageUrl={obj.imageUrl}
-                // imageUrl="https://res.cloudinary.com/practicaldev/image/fetch/s--UnAfrEG8--/c_imagga_scale,f_auto,fl_progressive,h_420,q_auto,w_1000/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/icohm5g0axh9wjmu4oc3.png"
+                imageUrl={obj.imageURL}
                 user={obj.user}
                 createdAt={obj.createdAt}
                 viewsCount={obj.viewsCount}
                 commentsCount={3}
                 tags={obj.tags}
-                isEditable
+                isEditable={userData?._id == obj.user._id}
               />
           ))}
-        </Grid>
+        {/* </Grid>
         <Grid xs={4} item>
           <TagsBlock items={tags.items} isLoading={isTagsLoading} />
           <CommentsBlock
@@ -75,7 +75,7 @@ export const Home = () => {
             isLoading={false}
           />
         </Grid>
-      </Grid>
+      </Grid> */}
     </>
   );
 };
